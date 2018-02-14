@@ -10,5 +10,6 @@ namespace SelkiDotNet.Models
         public string self { get; set; }
         public string email { get; set; }
         public string role { get; set; }
+        public string mobile { get; set; }
     }
 }
