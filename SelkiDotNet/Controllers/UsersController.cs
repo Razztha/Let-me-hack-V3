@@ -68,7 +68,9 @@ namespace SelkiDotNet.Controllers
 
                 if(user.password == null || user.password == "")
                 {
-                    mo.Password = GeneratePassword();
+
+                    mo.Password = "";//CreatePassword(8);
+
                 }
                 else
                 {
@@ -120,6 +122,20 @@ namespace SelkiDotNet.Controllers
         public void Delete(int id)
         {
         }
+        
+        //public string CreatePassword(int length)
+        //{
+        //    const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        //    StringBuilder res = new StringBuilder();
+        //    Random rnd = new Random();
+        //    while (0 < length--)
+        //    {
+        //        res.Append(valid[rnd.Next(valid.Length)]);
+        //    }
+        //    return res.ToString();
+        //}
+
+        public string CreatePassword(int length)
 
         //public string CreatePassword(int length)
         //{
