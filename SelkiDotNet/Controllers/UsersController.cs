@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 
 namespace SelkiDotNet.Controllers
@@ -72,6 +74,17 @@ namespace SelkiDotNet.Controllers
                 {
                     mo.Password = user.password;
                 }
+                var verifypassword = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,8}$");
+                if (!verifypassword.IsMatch(user.password))
+                {
+                    dto_ConflictMessage message1 = new dto_ConflictMessage();
+                    message1.message = "Password complexity requirement not met.";
+                    message1.status = "400";
+                    message1.developerMessage = "User creation failed because password complexity requirement not me";
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, message1);
+                }
+
+                mo.Password = MD5Hash(user.password);
                 mo.Username = user.username;
                 mo.EmailAddress = user.email;
                 mo.Role = user.role;
@@ -100,6 +113,7 @@ namespace SelkiDotNet.Controllers
         {
         }
 
+
         //public string CreatePassword(int length)
         //{
         //    const string valid = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -111,5 +125,31 @@ namespace SelkiDotNet.Controllers
         //    }
         //    return res.ToString();
         //}
+
+        public string CreatePassword(int length)
+        {
+           return System.Web.Security.Membership.GeneratePassword(length, 1);
+        }
+        public static string MD5Hash(string text)
+        {
+            MD5 md5 = new MD5CryptoServiceProvider();
+
+            //compute hash from the bytes of text
+            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(text));
+
+            //get hash result after compute it
+            byte[] result = md5.Hash;
+
+            StringBuilder strBuilder = new StringBuilder();
+            for (int i = 0; i < result.Length; i++)
+            {
+                //change it into 2 hexadecimal digits
+                //for each byte
+                strBuilder.Append(result[i].ToString("x2"));
+            }
+
+            return strBuilder.ToString();
+        }
+
     }
 }
