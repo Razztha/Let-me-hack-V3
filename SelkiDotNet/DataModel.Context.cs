@@ -25,7 +25,7 @@ namespace SelkiDotNet
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<batch> batches { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

@@ -14,7 +14,8 @@ namespace SelkiDotNet
     
     public partial class User
     {
-        public int ID { get; set; }
+        public string UUID { get; set; }
+        public string Username { get; set; }
         public string EmailAddress { get; set; }
         public string Password { get; set; }
         public string Role { get; set; }
