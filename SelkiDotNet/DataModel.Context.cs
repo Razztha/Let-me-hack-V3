@@ -27,5 +27,6 @@ namespace SelkiDotNet
     
         public virtual DbSet<batch> batches { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Faculty> Faculties { get; set; }
     }
 }
