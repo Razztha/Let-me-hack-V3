@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SelkiDotNet.Models;
+using SelkiDotNet.Models.SuccessMsg;
 
 namespace SelkiDotNet.Controllers
 {
@@ -12,9 +13,25 @@ namespace SelkiDotNet.Controllers
     {
         LetMeHackEntities db = new LetMeHackEntities();
         // GET: api/Faculties
-        public IEnumerable<string> Get()
+        public HttpResponseMessage Get()
         {
-            return new string[] { "value1", "value2" };
+            List<Faculty> list = db.Faculties.ToList();
+            facultylist fullmessage = new facultylist();
+            List<DtoFacultyGetSuccessMsg> fullist = new List<DtoFacultyGetSuccessMsg>();
+            foreach (var item in list)
+            {
+                DtoFacultyGetSuccessMsg message = new DtoFacultyGetSuccessMsg();
+                var baseUrl = Url.Link("DefaultApi", new { controller = "Faculties", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+                message.self = baseUrl;
+                message.id = item.Id;
+                message.name = item.Name;
+                fullist.Add(message);
+            }
+            fullmessage.faculties = fullist;
+            var rmsg = Request.CreateResponse(HttpStatusCode.Created, fullmessage);
+            //rmsg.Headers.Location = new Uri(Request.RequestUri + "/" + fac.Id);
+            return rmsg;
+
         }
 
         // GET: api/Faculties/5
