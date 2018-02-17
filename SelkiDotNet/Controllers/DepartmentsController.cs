@@ -34,9 +34,24 @@ namespace SelkiDotNet.Controllers
         }
 
         // GET: api/Departments/5
-        public string Get(int id)
+        public HttpResponseMessage Get(int faculty)
         {
-            return "value";
+            List<Department> list = db.Departments.Where(d=>d.FacultyId == faculty).ToList();
+            DepartmentList fullmessage = new DepartmentList();
+            List<DtoDepartmentGetSuccessMsg> fullist = new List<DtoDepartmentGetSuccessMsg>();
+            foreach (var item in list)
+            {
+                DtoDepartmentGetSuccessMsg message = new DtoDepartmentGetSuccessMsg();
+                var baseUrl = Url.Link("DefaultApi", new { controller = "departments", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+                message.self = baseUrl;
+                message.id = item.Id;
+                message.name = item.Name;
+                fullist.Add(message);
+            }
+            fullmessage.departments = fullist;
+            var rmsg = Request.CreateResponse(HttpStatusCode.Created, fullmessage);
+            //rmsg.Headers.Location = new Uri(Request.RequestUri + "/" + fac.Id);
+            return rmsg;
         }
 
         // POST: api/Departments
