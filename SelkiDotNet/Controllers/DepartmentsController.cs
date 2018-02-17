@@ -1,4 +1,5 @@
 ﻿using SelkiDotNet.Models;
+using SelkiDotNet.Models.SuccessMsg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,24 @@ namespace SelkiDotNet.Controllers
     {
         LetMeHackEntities db = new LetMeHackEntities();
         // GET: api/Departments
-        public IEnumerable<string> Get()
+        public HttpResponseMessage Get()
         {
-            return new string[] { "value1", "value2" };
+            List<Department> list = db.Departments.ToList();
+            DepartmentList fullmessage = new DepartmentList();
+            List<DtoDepartmentGetSuccessMsg> fullist = new List<DtoDepartmentGetSuccessMsg>();
+            foreach (var item in list)
+            {
+                DtoDepartmentGetSuccessMsg message = new DtoDepartmentGetSuccessMsg();
+                var baseUrl = Url.Link("DefaultApi", new { controller = "departments", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+                message.self = baseUrl;
+                message.id = item.Id;
+                message.name = item.Name;
+                fullist.Add(message);
+            }
+            fullmessage.departments = fullist;
+            var rmsg = Request.CreateResponse(HttpStatusCode.Created, fullmessage);
+            //rmsg.Headers.Location = new Uri(Request.RequestUri + "/" + fac.Id);
+            return rmsg;
         }
 
         // GET: api/Departments/5

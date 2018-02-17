@@ -289,6 +289,7 @@
     <Compile Include="Models\dto_ConflictMessage.cs" />
     <Compile Include="Models\dto_Successful_Message.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\SuccessMsg\DtoDepartmentGetSuccessMsg.cs" />
     <Compile Include="Models\SuccessMsg\DtoFacultyGetSuccessMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
