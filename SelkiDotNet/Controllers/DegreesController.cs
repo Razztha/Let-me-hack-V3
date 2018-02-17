@@ -43,8 +43,8 @@ namespace SelkiDotNet.Controllers
             deg.DepartmentId = degree.department_id;
             db.Degrees.Add(deg);
             db.SaveChanges();
-            var baseUrl1 = Url.Link("DefaultApi", new { controller = "Degrees", deg.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
-            var baseUrl2 = Url.Link("DefaultApi", new { controller = "Departments", degree.department_id });
+            var baseUrl1 = Url.Link("DefaultApi", new { controller = "degrees", deg.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+            var baseUrl2 = Url.Link("DefaultApi", new { controller = "departments", degree.department_id });
             message.self = baseUrl1;
             message.name = deg.Name;
             message1.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + degree.department_id; ;

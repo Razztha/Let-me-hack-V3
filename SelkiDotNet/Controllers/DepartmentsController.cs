@@ -74,8 +74,8 @@ namespace SelkiDotNet.Controllers
             dep.FacultyId = department.faculty_id;
             db.Departments.Add(dep);
             db.SaveChanges();
-            var baseUrl1 = Url.Link("DefaultApi", new { controller = "Departments", dep.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
-            var baseUrl2 = Url.Link("DefaultApi", new { controller = "Faculties", department.faculty_id });
+            var baseUrl1 = Url.Link("DefaultApi", new { controller = "departments", dep.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+            var baseUrl2 = Url.Link("DefaultApi", new { controller = "faculties", department.faculty_id });
             message.self = baseUrl1;
             message.name = dep.Name;
             message1.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + department.faculty_id; ;

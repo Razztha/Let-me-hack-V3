@@ -21,7 +21,7 @@ namespace SelkiDotNet.Controllers
             foreach (var item in list)
             {
                 DtoFacultyGetSuccessMsg message = new DtoFacultyGetSuccessMsg();
-                var baseUrl = Url.Link("DefaultApi", new { controller = "Faculties", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+                var baseUrl = Url.Link("DefaultApi", new { controller = "faculties", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
                 message.self = baseUrl;
                 message.id = item.Id;
                 message.name = item.Name;
@@ -53,7 +53,7 @@ namespace SelkiDotNet.Controllers
             fac.Name = faculty.name;
             db.Faculties.Add(fac);
             db.SaveChanges();
-            var baseUrl = Url.Link("DefaultApi", new { controller = "Faculties", fac.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+            var baseUrl = Url.Link("DefaultApi", new { controller = "faculties", fac.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
             message.self = baseUrl;
             message.name = fac.Name;
             var rmsg = Request.CreateResponse(HttpStatusCode.Created, message);

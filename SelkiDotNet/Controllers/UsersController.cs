@@ -102,7 +102,7 @@ namespace SelkiDotNet.Controllers
 
                 message.email = user.email;
                 message.mobile = user.mobile;
-                var baseUrl = Url.Link("DefaultApi", new { controller = "Users", mo.UUID });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+                var baseUrl = Url.Link("DefaultApi", new { controller = "users", mo.UUID });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
                 message.self = baseUrl.Substring(0, baseUrl.IndexOf("?")) +"/"+ mo.UUID;
                 //  rmsg.Headers.Location = new Uri(Request.RequestUri);
 
