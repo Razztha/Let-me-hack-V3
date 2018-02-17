@@ -12,6 +12,14 @@
           <Property Name="batch_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="batch_name" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="Degrees">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" />
+          <Property Name="DepartmentId" Type="int" />
+        </EntityType>
         <EntityType Name="Departments">
           <Key>
             <PropertyRef Name="Id" />
@@ -40,6 +48,7 @@
         </EntityType>
         <EntityContainer Name="LetMeHackModelStoreContainer">
           <EntitySet Name="batches" EntityType="Self.batches" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Degrees" EntityType="Self.Degrees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Faculties" EntityType="Self.Faculties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
@@ -53,6 +62,7 @@
           <EntitySet Name="Users" EntityType="LetMeHackModel.User" />
           <EntitySet Name="Faculties" EntityType="LetMeHackModel.Faculty" />
           <EntitySet Name="Departments" EntityType="LetMeHackModel.Department" />
+          <EntitySet Name="Degrees" EntityType="LetMeHackModel.Degree" />
         </EntityContainer>
         <EntityType Name="batch">
           <Key>
@@ -86,6 +96,14 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FacultyId" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Degree">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentId" Type="Int32" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -125,6 +143,15 @@
             <EntityTypeMapping TypeName="LetMeHackModel.Department">
               <MappingFragment StoreEntitySet="Departments">
                 <ScalarProperty Name="FacultyId" ColumnName="FacultyId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Degrees">
+            <EntityTypeMapping TypeName="LetMeHackModel.Degree">
+              <MappingFragment StoreEntitySet="Degrees">
+                <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

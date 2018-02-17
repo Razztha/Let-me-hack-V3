@@ -50,7 +50,6 @@ namespace SelkiDotNet.Controllers
             message1.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + department.faculty_id; ;
             message1.id = department.faculty_id;
             message1.name = db.Faculties.FirstOrDefault(f=>f.Id==department.faculty_id).Name;
-            string[] array = new string[3];
             message.faculty = message1;
             var rmsg = Request.CreateResponse(HttpStatusCode.Created, message);
             rmsg.Headers.Location = new Uri(Request.RequestUri + "/" + dep.Id);
