@@ -243,6 +243,7 @@
     </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\batchesController.cs" />
+    <Compile Include="Controllers\DegreesController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\FacultiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -263,6 +264,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Degree.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Department.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
@@ -275,6 +279,7 @@
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DtoBatch.cs" />
+    <Compile Include="Models\DtoDegrees.cs" />
     <Compile Include="Models\DtoDepartment.cs" />
     <Compile Include="Models\DtoDepartmentSuccessMsg.cs" />
     <Compile Include="Models\DtoFaculty.cs" />
@@ -404,7 +409,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>8577</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:40555/api</IISUrl>
+          <IISUrl>http://localhost:8097/api</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

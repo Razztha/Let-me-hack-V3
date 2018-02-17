@@ -29,5 +29,6 @@ namespace SelkiDotNet
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Faculty> Faculties { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
+        public virtual DbSet<Degree> Degrees { get; set; }
     }
 }
