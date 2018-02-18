@@ -1,4 +1,4 @@
-﻿using SelkiDotNet.Models;
+using SelkiDotNet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +19,9 @@ namespace SelkiDotNet.Controllers
             if (department == 0)
             { 
                 list = db.Degrees.ToList();
+            if (department == 0) { 
+             list = db.Degrees.ToList();
+
              }
             else
             {
