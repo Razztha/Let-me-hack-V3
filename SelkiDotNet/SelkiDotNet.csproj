@@ -292,6 +292,7 @@
     <Compile Include="Models\SuccessMsg\DtoDegreeGetSuccessMsg.cs" />
     <Compile Include="Models\SuccessMsg\DtoDepartmentGetSuccessMsg.cs" />
     <Compile Include="Models\SuccessMsg\DtoFacultyGetSuccessMsg.cs" />
+    <Compile Include="Models\SuccessMsg\DtoUserGetSuccessMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
