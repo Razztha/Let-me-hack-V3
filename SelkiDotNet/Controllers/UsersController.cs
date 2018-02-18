@@ -10,6 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web.Http;
 
+
 namespace SelkiDotNet.Controllers
 {
     public class UsersController : ApiController
@@ -17,9 +18,64 @@ namespace SelkiDotNet.Controllers
         LetMeHackEntities db = new LetMeHackEntities();
 
         // GET: api/Users
-        public IEnumerable<string> Get()
+        public HttpResponseMessage Get(int faculty=0, int department=0, int degree=0)
         {
-            return new string[] { "value1", "value2" };
+            
+            List<User> list = new List<User>();
+            
+            if(faculty == 0 && department ==0 && degree==0)
+            {
+                list = db.Users.ToList();
+            }
+            if (faculty != 0)
+            {
+                list = db.Users.Where(d => d.FacultyId == faculty).ToList();
+
+                
+            }
+            if (department !=0)
+            {
+                list = db.Users.Where(d => d.DepartmentId == department).ToList();
+            }
+            if (degree !=0)
+            {
+                list = db.Users.Where(d => d.DegreeId == degree).ToList();
+            }
+            
+            List<DtoUserGetSuccessMsg> fulllist = new List<DtoUserGetSuccessMsg>();
+
+            foreach (var item in list)
+            {
+                DtoUserGetSuccessMsg message = new DtoUserGetSuccessMsg();
+                fact newObjFaculty = new fact();
+                dept newObjDepartment = new dept();
+                degr newObjDegree = new degr();
+                var baseUrl = Url.Link("DefaultApi", new { controller = "users", item.UUID });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+                message.self = baseUrl;
+                message.firstname = item.FirstName;
+                message.lastname = item.LastName;
+                message.batch = item.Batch;
+
+                var baseUrl1 = Url.Link("DefaultApi", new { controller = "faculties", item.FacultyId });
+                newObjFaculty.self = baseUrl1.Substring(0, baseUrl1.IndexOf("?")) + "/" + item.FacultyId;
+                newObjFaculty.name = db.Faculties.FirstOrDefault(f => f.Id == item.FacultyId).Name;
+                message.faculty = newObjFaculty;
+
+                var baseUrl2 = Url.Link("DefaultApi", new { controller = "departments", item.DepartmentId });
+                newObjDepartment.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + item.DepartmentId;
+                newObjDepartment.name = db.Departments.FirstOrDefault(f => f.Id == item.DepartmentId).Name;
+                message.department = newObjDepartment;
+
+                var baseUrl3 = Url.Link("DefaultApi", new { controller = "degrees", item.DegreeId });
+                newObjDegree.self = baseUrl3.Substring(0, baseUrl3.IndexOf("?")) + "/" + item.DegreeId;
+                newObjDegree.name = db.Degrees.FirstOrDefault(f => f.Id == item.DegreeId).Name;
+                message.degree = newObjDegree;
+
+                fulllist.Add(message);
+            }
+
+            var rmsg = Request.CreateResponse(HttpStatusCode.Created, fulllist);
+            return rmsg;
         }
 
         // GET: api/Users/5

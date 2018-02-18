@@ -1,4 +1,4 @@
-﻿using SelkiDotNet.Models;
+using SelkiDotNet.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +16,12 @@ namespace SelkiDotNet.Controllers
         public HttpResponseMessage Get(int department = 0)
         {
             List<Degree> list = new List<Degree>();
+            if (department == 0)
+            { 
+                list = db.Degrees.ToList();
             if (department == 0) { 
              list = db.Degrees.ToList();
+
              }
             else
             {
