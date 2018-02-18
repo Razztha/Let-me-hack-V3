@@ -20,5 +20,11 @@ namespace SelkiDotNet
         public string Password { get; set; }
         public string Role { get; set; }
         public string Mobile { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public Nullable<int> FacultyId { get; set; }
+        public Nullable<int> DepartmentId { get; set; }
+        public Nullable<int> DegreeId { get; set; }
+        public string Batch { get; set; }
     }
 }
