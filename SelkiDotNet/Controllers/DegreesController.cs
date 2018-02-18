@@ -17,8 +17,9 @@ namespace SelkiDotNet.Controllers
         {
             List<Degree> list = new List<Degree>();
             if (department == 0)
-            { 
+            {
                 list = db.Degrees.ToList();
+            }
             if (department == 0) { 
              list = db.Degrees.ToList();
 
@@ -89,5 +90,6 @@ namespace SelkiDotNet.Controllers
         public void Delete(int id)
         {
         }
-    }
+    
 }
+    }
