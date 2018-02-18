@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using SelkiDotNet.Models.SuccessMsg;
 
 namespace SelkiDotNet.Controllers
 {
@@ -12,16 +13,34 @@ namespace SelkiDotNet.Controllers
     {
         LetMeHackEntities db = new LetMeHackEntities();
         // GET: api/Degrees
-        public IEnumerable<string> Get()
+        public HttpResponseMessage Get(int department = 0)
         {
-            return new string[] { "value1", "value2" };
+            List<Degree> list = new List<Degree>();
+            if (department == 0) { 
+             list = db.Degrees.ToList();
+             }
+            else
+            {
+                 list = db.Degrees.Where(d => d.DepartmentId == department).ToList();
+            }
+            degreelist fullmessage = new degreelist();
+            List<DtoDegreeGetSuccessMsg> fulllist = new List<DtoDegreeGetSuccessMsg>();
+            foreach (var item in list)
+            {
+                DtoDegreeGetSuccessMsg message = new DtoDegreeGetSuccessMsg();
+                var baseUrl = Url.Link("DefaultApi", new { controller = "degrees", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+                message.self = baseUrl;
+                message.id = item.Id;
+                message.name = item.Name;
+                fulllist.Add(message);
+
+            }
+            fullmessage.degrees = fulllist;
+            var rmsg = Request.CreateResponse(HttpStatusCode.Created, fullmessage);
+            return rmsg;
         }
 
-        // GET: api/Degrees/5
-        public string Get(int id)
-        {
-            return "value";
-        }
+       
 
         // POST: api/Degrees
         public HttpResponseMessage Post([FromBody]DtoDegrees degree)
