@@ -13,9 +13,19 @@ namespace SelkiDotNet.Controllers
     {
         LetMeHackEntities db = new LetMeHackEntities();
         // GET: api/Departments
-        public HttpResponseMessage Get()
+        public HttpResponseMessage Get(int faculty = 0)
         {
-            List<Department> list = db.Departments.ToList();
+            List<Department> list = new List<Department>();
+
+            if(faculty == 0)
+            {
+                 list = db.Departments.ToList();
+            }
+            else
+            {
+                list = db.Departments.Where(d => d.FacultyId == faculty).ToList();
+            }
+            
             DepartmentList fullmessage = new DepartmentList();
             List<DtoDepartmentGetSuccessMsg> fullist = new List<DtoDepartmentGetSuccessMsg>();
             foreach (var item in list)
@@ -34,25 +44,25 @@ namespace SelkiDotNet.Controllers
         }
 
         // GET: api/Departments/5
-        public HttpResponseMessage Get(int faculty)
-        {
-            List<Department> list = db.Departments.Where(d=>d.FacultyId == faculty).ToList();
-            DepartmentList fullmessage = new DepartmentList();
-            List<DtoDepartmentGetSuccessMsg> fullist = new List<DtoDepartmentGetSuccessMsg>();
-            foreach (var item in list)
-            {
-                DtoDepartmentGetSuccessMsg message = new DtoDepartmentGetSuccessMsg();
-                var baseUrl = Url.Link("DefaultApi", new { controller = "departments", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
-                message.self = baseUrl;
-                message.id = item.Id;
-                message.name = item.Name;
-                fullist.Add(message);
-            }
-            fullmessage.departments = fullist;
-            var rmsg = Request.CreateResponse(HttpStatusCode.Created, fullmessage);
-            //rmsg.Headers.Location = new Uri(Request.RequestUri + "/" + fac.Id);
-            return rmsg;
-        }
+        //public HttpResponseMessage Get(int faculty)
+        //{
+        //    List<Department> list = db.Departments.Where(d=>d.FacultyId == faculty).ToList();
+        //    DepartmentList fullmessage = new DepartmentList();
+        //    List<DtoDepartmentGetSuccessMsg> fullist = new List<DtoDepartmentGetSuccessMsg>();
+        //    foreach (var item in list)
+        //    {
+        //        DtoDepartmentGetSuccessMsg message = new DtoDepartmentGetSuccessMsg();
+        //        var baseUrl = Url.Link("DefaultApi", new { controller = "departments", item.Id });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
+        //        message.self = baseUrl;
+        //        message.id = item.Id;
+        //        message.name = item.Name;
+        //        fullist.Add(message);
+        //    }
+        //    fullmessage.departments = fullist;
+        //    var rmsg = Request.CreateResponse(HttpStatusCode.Created, fullmessage);
+        //    //rmsg.Headers.Location = new Uri(Request.RequestUri + "/" + fac.Id);
+        //    return rmsg;
+        //}
 
         // POST: api/Departments
         public HttpResponseMessage Post([FromBody]DtoDepartment department)
