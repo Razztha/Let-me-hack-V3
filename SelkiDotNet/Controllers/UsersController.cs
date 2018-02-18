@@ -1,4 +1,5 @@
 ﻿using SelkiDotNet.Models;
+using SelkiDotNet.Models.SuccessMsg;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace SelkiDotNet.Controllers
         // POST: api/Users
         public HttpResponseMessage Post([FromBody]DtoUser user)
         {
-
+         
             var check = db.Users.FirstOrDefault(u => u.EmailAddress == user.email);
 
             if (check != null)
@@ -69,14 +70,14 @@ namespace SelkiDotNet.Controllers
                 if(user.password == null || user.password == "")
                 {
 
-                    mo.Password = "";//CreatePassword(8);
+                    mo.Password = GeneratePassword();
 
                 }
                 else
                 {
                     mo.Password = user.password;
                 }
-                var verifypassword = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!$#%?~@*^&_+=`:;]).{6,8}$");
+                var verifypassword = new Regex("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[~!@#$%^&*_\\-+=`|\\(){}[\\].?]).{6,8}$");
                 if (!verifypassword.IsMatch(mo.Password))
                 {
                     dto_ConflictMessage message1 = new dto_ConflictMessage();
@@ -87,21 +88,53 @@ namespace SelkiDotNet.Controllers
                 }
 
                 var verifyphone = new Regex("^[0-9]{11}$");
-                if(!verifyphone.IsMatch(user.mobile))
+                if(!(user.mobile == null) || !(user.mobile != ""))
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid phone number format");
+                    if (!verifyphone.IsMatch(user.mobile))
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Invalid phone number format");
+                    }
                 }
+               
 
+                fac newObjFaculty = new fac();
+                dep newObjDepartment = new dep();
+                deg newObjDegree = new deg();
                 mo.Password = MD5Hash(mo.Password);
                 mo.Username = user.username;
                 mo.EmailAddress = user.email;
                 mo.Mobile = user.mobile;
                 mo.Role = user.role;
+                mo.FirstName = user.first_name;
+                mo.LastName = user.last_name;
+                mo.FacultyId = user.faculty_id;
+                mo.DegreeId = user.department_id;
+                mo.DegreeId = user.degree_id;
+                mo.Batch = user.batch;
                 db.Users.Add(mo);
                 db.SaveChanges();
 
                 message.email = user.email;
                 message.mobile = user.mobile;
+                message.first_name = user.first_name;
+                message.last_name = user.last_name;
+                message.batch = user.batch;
+
+                var baseUrl1 = Url.Link("DefaultApi", new { controller = "faculties", user.faculty_id });
+                newObjFaculty.self = baseUrl1.Substring(0, baseUrl1.IndexOf("?")) + "/" + user.faculty_id;
+                newObjFaculty.name = db.Faculties.FirstOrDefault(f => f.Id == user.faculty_id).Name;
+                message.faculty = newObjFaculty;
+
+                var baseUrl2 = Url.Link("DefaultApi", new { controller = "departments", user.department_id });
+                newObjDepartment.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + user.department_id;
+                newObjDepartment.name = db.Departments.FirstOrDefault(f => f.Id == user.department_id).Name;
+                message.department = newObjDepartment;
+
+                var baseUrl3 = Url.Link("DefaultApi", new { controller = "degrees", user.degree_id });
+                newObjDegree.self = baseUrl3.Substring(0, baseUrl3.IndexOf("?")) + "/" + user.degree_id;
+                newObjDegree.name = db.Degrees.FirstOrDefault(f => f.Id == user.degree_id).Name;
+                message.degree = newObjDegree;
+
                 var baseUrl = Url.Link("DefaultApi", new { controller = "users", mo.UUID });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
                 message.self = baseUrl.Substring(0, baseUrl.IndexOf("?")) +"/"+ mo.UUID;
                 //  rmsg.Headers.Location = new Uri(Request.RequestUri);

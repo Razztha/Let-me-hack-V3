@@ -11,5 +11,27 @@ namespace SelkiDotNet.Models
         public string email { get; set; }
         public string role { get; set; }
         public string mobile { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string batch { get; set; }
+        public fac faculty { get; set; }
+        public dep department { get; set; }
+        public deg degree { get; set; }
+
+    }
+    public class fac
+    {
+        public string self { get; set; }
+        public string name { get; set; }
+    }
+    public class dep
+    {
+        public string self { get; set; }
+        public string name { get; set; }
+    }
+    public class deg
+    {
+        public string self { get; set; }
+        public string name { get; set; }
     }
 }
