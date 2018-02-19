@@ -7,8 +7,10 @@
       <Diagram DiagramId="47d9a77f3c4a4ee5901b6efdcfce85dc" Name="Diagram1">
         <EntityTypeShape EntityType="LetMeHackModel.batch" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="LetMeHackModel.User" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="LetMeHackModel.Faculty" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="LetMeHackModel.Faculty" Width="1.5" PointX="1" PointY="5.125" />
         <EntityTypeShape EntityType="LetMeHackModel.Department" Width="1.5" PointX="3.375" PointY="3.75" />
+        <AssociationConnector Association="LetMeHackModel.FK_User_Department" />
+        <AssociationConnector Association="LetMeHackModel.FK_User_Faculty" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

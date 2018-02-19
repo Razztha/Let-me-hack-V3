@@ -52,12 +52,60 @@
           <Property Name="DegreeId" Type="int" />
           <Property Name="Batch" Type="varchar" MaxLength="100" />
         </EntityType>
+        <Association Name="FK_User_Degree">
+          <End Role="Degrees" Type="Self.Degrees" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Degrees">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DegreeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Department">
+          <End Role="Departments" Type="Self.Departments" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Departments">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Faculty">
+          <End Role="Faculties" Type="Self.Faculties" Multiplicity="0..1" />
+          <End Role="User" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculties">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="FacultyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="LetMeHackModelStoreContainer">
           <EntitySet Name="batches" EntityType="Self.batches" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Degrees" EntityType="Self.Degrees" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Departments" EntityType="Self.Departments" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Faculties" EntityType="Self.Faculties" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_User_Degree" Association="Self.FK_User_Degree">
+            <End Role="Degrees" EntitySet="Degrees" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Department" Association="Self.FK_User_Department">
+            <End Role="Departments" EntitySet="Departments" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Faculty" Association="Self.FK_User_Faculty">
+            <End Role="Faculties" EntitySet="Faculties" />
+            <End Role="User" EntitySet="User" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -69,6 +117,18 @@
           <EntitySet Name="Faculties" EntityType="LetMeHackModel.Faculty" />
           <EntitySet Name="Departments" EntityType="LetMeHackModel.Department" />
           <EntitySet Name="Degrees" EntityType="LetMeHackModel.Degree" />
+          <AssociationSet Name="FK_User_Department" Association="LetMeHackModel.FK_User_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Degree" Association="LetMeHackModel.FK_User_Degree">
+            <End Role="Degree" EntitySet="Degrees" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Faculty" Association="LetMeHackModel.FK_User_Faculty">
+            <End Role="Faculty" EntitySet="Faculties" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="batch">
           <Key>
@@ -93,6 +153,9 @@
           <Property Name="DepartmentId" Type="Int32" />
           <Property Name="DegreeId" Type="Int32" />
           <Property Name="Batch" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Department" Relationship="LetMeHackModel.FK_User_Department" FromRole="User" ToRole="Department" />
+          <NavigationProperty Name="Degree" Relationship="LetMeHackModel.FK_User_Degree" FromRole="User" ToRole="Degree" />
+          <NavigationProperty Name="Faculty" Relationship="LetMeHackModel.FK_User_Faculty" FromRole="User" ToRole="Faculty" />
         </EntityType>
         <EntityType Name="Faculty">
           <Key>
@@ -100,6 +163,7 @@
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Users" Relationship="LetMeHackModel.FK_User_Faculty" FromRole="Faculty" ToRole="User" />
         </EntityType>
         <EntityType Name="Department">
           <Key>
@@ -108,6 +172,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="FacultyId" Type="Int32" />
+          <NavigationProperty Name="Users" Relationship="LetMeHackModel.FK_User_Department" FromRole="Department" ToRole="User" />
         </EntityType>
         <EntityType Name="Degree">
           <Key>
@@ -116,7 +181,44 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
           <Property Name="DepartmentId" Type="Int32" />
+          <NavigationProperty Name="Users" Relationship="LetMeHackModel.FK_User_Degree" FromRole="Degree" ToRole="User" />
         </EntityType>
+        <Association Name="FK_User_Department">
+          <End Type="LetMeHackModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="LetMeHackModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DepartmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Degree">
+          <End Type="LetMeHackModel.Degree" Role="Degree" Multiplicity="0..1" />
+          <End Type="LetMeHackModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Degree">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="DegreeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Faculty">
+          <End Type="LetMeHackModel.Faculty" Role="Faculty" Multiplicity="0..1" />
+          <End Type="LetMeHackModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Faculty">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="FacultyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->

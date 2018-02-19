@@ -14,6 +14,7 @@ namespace SelkiDotNet.Models
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string batch { get; set; }
+        public string username { get; set; }
         public fac faculty { get; set; }
         public dep department { get; set; }
         public deg degree { get; set; }
