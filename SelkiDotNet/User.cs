@@ -26,5 +26,9 @@ namespace SelkiDotNet
         public Nullable<int> DepartmentId { get; set; }
         public Nullable<int> DegreeId { get; set; }
         public string Batch { get; set; }
+    
+        public virtual Department Department { get; set; }
+        public virtual Degree Degree { get; set; }
+        public virtual Faculty Faculty { get; set; }
     }
 }

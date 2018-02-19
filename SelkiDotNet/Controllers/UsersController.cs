@@ -18,7 +18,7 @@ namespace SelkiDotNet.Controllers
         LetMeHackEntities db = new LetMeHackEntities();
 
         // GET: api/Users
-        public HttpResponseMessage Get(int faculty=0, int department=0, int degree=0)
+        public HttpResponseMessage Get(int faculty=0, int department=0, int degree=0,string q=null)
         {
             
             List<User> list = new List<User>();
@@ -41,40 +41,56 @@ namespace SelkiDotNet.Controllers
             {
                 list = db.Users.Where(d => d.DegreeId == degree).ToList();
             }
+            if(q!=null)
+            {
+                list = db.Users.Where(d => ((d.Department.Name).Contains(q)) ||
+                    (d.Faculty.Name).Contains(q) || (d.Username).Contains(q) || (d.EmailAddress).Contains(q)).ToList();
+            }
             
             List<DtoUserGetSuccessMsg> fulllist = new List<DtoUserGetSuccessMsg>();
-
+            userlist ulist = new userlist();
             foreach (var item in list)
             {
                 DtoUserGetSuccessMsg message = new DtoUserGetSuccessMsg();
                 fact newObjFaculty = new fact();
                 dept newObjDepartment = new dept();
                 degr newObjDegree = new degr();
+                
                 var baseUrl = Url.Link("DefaultApi", new { controller = "users", item.UUID });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
-                message.self = baseUrl;
+                message.self = baseUrl.Substring(0, baseUrl.IndexOf("?")) + "/" + item.UUID; ;
                 message.firstname = item.FirstName;
                 message.lastname = item.LastName;
                 message.batch = item.Batch;
+                message.username = item.Username;
 
-                var baseUrl1 = Url.Link("DefaultApi", new { controller = "faculties", item.FacultyId });
-                newObjFaculty.self = baseUrl1.Substring(0, baseUrl1.IndexOf("?")) + "/" + item.FacultyId;
-                newObjFaculty.name = db.Faculties.FirstOrDefault(f => f.Id == item.FacultyId).Name;
-                message.faculty = newObjFaculty;
+                if (item.FacultyId != null)
+                {
+                    var baseUrl1 = Url.Link("DefaultApi", new { controller = "faculties", item.FacultyId });
+                    newObjFaculty.self = baseUrl1.Substring(0, baseUrl1.IndexOf("?")) + "/" + item.FacultyId;
+                    newObjFaculty.name = db.Faculties.FirstOrDefault(f => f.Id == item.FacultyId).Name;
+                    message.faculty = newObjFaculty;
+   
+                }
+                
+                if (item.DepartmentId != null)
+                {
+                    var baseUrl2 = Url.Link("DefaultApi", new { controller = "departments", item.DepartmentId });
+                    newObjDepartment.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + item.DepartmentId;
+                    newObjDepartment.name = db.Departments.FirstOrDefault(f => f.Id == item.DepartmentId).Name;
+                    message.department = newObjDepartment;
+                }
 
-                var baseUrl2 = Url.Link("DefaultApi", new { controller = "departments", item.DepartmentId });
-                newObjDepartment.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + item.DepartmentId;
-                newObjDepartment.name = db.Departments.FirstOrDefault(f => f.Id == item.DepartmentId).Name;
-                message.department = newObjDepartment;
-
-                var baseUrl3 = Url.Link("DefaultApi", new { controller = "degrees", item.DegreeId });
-                newObjDegree.self = baseUrl3.Substring(0, baseUrl3.IndexOf("?")) + "/" + item.DegreeId;
-                newObjDegree.name = db.Degrees.FirstOrDefault(f => f.Id == item.DegreeId).Name;
-                message.degree = newObjDegree;
-
+                if (item.DegreeId != null)
+                {
+                    var baseUrl3 = Url.Link("DefaultApi", new { controller = "degrees", item.DegreeId });
+                    newObjDegree.self = baseUrl3.Substring(0, baseUrl3.IndexOf("?")) + "/" + item.DegreeId;
+                    newObjDegree.name = db.Degrees.FirstOrDefault(f => f.Id == item.DegreeId).Name;
+                    message.degree = newObjDegree;
+                }
                 fulllist.Add(message);
             }
-
-            var rmsg = Request.CreateResponse(HttpStatusCode.Created, fulllist);
+            ulist.users = fulllist;
+            var rmsg = Request.CreateResponse(HttpStatusCode.Created, ulist);
             return rmsg;
         }
 
@@ -175,6 +191,7 @@ namespace SelkiDotNet.Controllers
                 message.first_name = user.first_name;
                 message.last_name = user.last_name;
                 message.batch = user.batch;
+                
 
                 var baseUrl1 = Url.Link("DefaultApi", new { controller = "faculties", user.faculty_id });
                 newObjFaculty.self = baseUrl1.Substring(0, baseUrl1.IndexOf("?")) + "/" + user.faculty_id;

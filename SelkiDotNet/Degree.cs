@@ -14,8 +14,17 @@ namespace SelkiDotNet
     
     public partial class Degree
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Degree()
+        {
+            this.Users = new HashSet<User>();
+        }
+    
         public int Id { get; set; }
         public string Name { get; set; }
         public Nullable<int> DepartmentId { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<User> Users { get; set; }
     }
 }

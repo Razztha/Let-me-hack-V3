@@ -32,4 +32,8 @@ namespace SelkiDotNet.Models.SuccessMsg
         public string self { get; set; }
         public string name { get; set; }
     }
+    public class userlist
+    {
+        public List<DtoUserGetSuccessMsg> users { get; set; }
+    }
 }
