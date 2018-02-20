@@ -60,6 +60,7 @@ namespace SelkiDotNet.Controllers
                 message.lastname = item.LastName;
                 message.batch = item.Batch;
                 message.username = item.Username;
+                message.email = item.EmailAddress;
 
                 if (item.FacultyId != null)
                 {
