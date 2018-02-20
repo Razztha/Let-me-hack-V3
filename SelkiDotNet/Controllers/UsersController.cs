@@ -192,22 +192,31 @@ namespace SelkiDotNet.Controllers
                 message.first_name = user.first_name;
                 message.last_name = user.last_name;
                 message.batch = user.batch;
+
+                if (user.faculty_id != null)
+                {
+                    var baseUrl1 = Url.Link("DefaultApi", new { controller = "faculties", user.faculty_id });
+                    newObjFaculty.self = baseUrl1.Substring(0, baseUrl1.IndexOf("?")) + "/" + user.faculty_id;
+                    newObjFaculty.name = db.Faculties.FirstOrDefault(f => f.Id == user.faculty_id).Name;
+                    message.faculty = newObjFaculty;
+                }
                 
+                if(user.department_id != null)
+                {
+                    var baseUrl2 = Url.Link("DefaultApi", new { controller = "departments", user.department_id });
+                    newObjDepartment.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + user.department_id;
+                    newObjDepartment.name = db.Departments.FirstOrDefault(f => f.Id == user.department_id).Name;
+                    message.department = newObjDepartment;
+                }
 
-                var baseUrl1 = Url.Link("DefaultApi", new { controller = "faculties", user.faculty_id });
-                newObjFaculty.self = baseUrl1.Substring(0, baseUrl1.IndexOf("?")) + "/" + user.faculty_id;
-                newObjFaculty.name = db.Faculties.FirstOrDefault(f => f.Id == user.faculty_id).Name;
-                message.faculty = newObjFaculty;
-
-                var baseUrl2 = Url.Link("DefaultApi", new { controller = "departments", user.department_id });
-                newObjDepartment.self = baseUrl2.Substring(0, baseUrl2.IndexOf("?")) + "/" + user.department_id;
-                newObjDepartment.name = db.Departments.FirstOrDefault(f => f.Id == user.department_id).Name;
-                message.department = newObjDepartment;
-
-                var baseUrl3 = Url.Link("DefaultApi", new { controller = "degrees", user.degree_id });
-                newObjDegree.self = baseUrl3.Substring(0, baseUrl3.IndexOf("?")) + "/" + user.degree_id;
-                newObjDegree.name = db.Degrees.FirstOrDefault(f => f.Id == user.degree_id).Name;
-                message.degree = newObjDegree;
+                if (user.degree_id!= null)
+                {
+                    var baseUrl3 = Url.Link("DefaultApi", new { controller = "degrees", user.degree_id });
+                    newObjDegree.self = baseUrl3.Substring(0, baseUrl3.IndexOf("?")) + "/" + user.degree_id;
+                    newObjDegree.name = db.Degrees.FirstOrDefault(f => f.Id == user.degree_id).Name;
+                    message.degree = newObjDegree;
+                }
+                
 
                 var baseUrl = Url.Link("DefaultApi", new { controller = "users", mo.UUID });/*Url.Content("~/");*/ /*Request.RequestUri.GetLeftPart(UriPartial.Authority);*/
                 message.self = baseUrl.Substring(0, baseUrl.IndexOf("?")) +"/"+ mo.UUID;
