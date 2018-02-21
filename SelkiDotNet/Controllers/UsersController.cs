@@ -179,7 +179,7 @@ namespace SelkiDotNet.Controllers
                 mo.FirstName = user.first_name;
                 mo.LastName = user.last_name;
                 mo.FacultyId = user.faculty_id;
-                mo.DegreeId = user.department_id;
+                mo.DepartmentId = user.department_id;
                 mo.DegreeId = user.degree_id;
                 mo.Batch = user.batch;
                 db.Users.Add(mo);
