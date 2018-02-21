@@ -18,26 +18,26 @@ namespace SelkiDotNet.Controllers
         LetMeHackEntities db = new LetMeHackEntities();
 
         // GET: api/Users
-        public HttpResponseMessage Get(int faculty=0, int department=0, int degree=0,string q=null)
+        public HttpResponseMessage Get(int faculty_id=0, int department_id=0, int degree_id=0,string q=null)
         {
             
             List<User> list = new List<User>();
             
-            if(faculty == 0 && department ==0 && degree==0)
+            if(faculty_id == 0 && department_id ==0 && degree_id==0)
             {
                 list = db.Users.ToList();
             }
-            if (faculty != 0)
+            if (faculty_id != 0)
             {
-                list = db.Users.Where(d => d.FacultyId == faculty).ToList();             
+                list = db.Users.Where(d => d.FacultyId == faculty_id).ToList();             
             }
-            if (department !=0)
+            if (department_id !=0)
             {
-                list = db.Users.Where(d => d.DepartmentId == department).ToList();
+                list = db.Users.Where(d => d.DepartmentId == department_id).ToList();
             }
-            if (degree !=0)
+            if (degree_id !=0)
             {
-                list = db.Users.Where(d => d.DegreeId == degree).ToList();
+                list = db.Users.Where(d => d.DegreeId == degree_id).ToList();
             }
             if(q!=null)
             {
