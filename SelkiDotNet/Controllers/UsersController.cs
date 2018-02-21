@@ -29,9 +29,7 @@ namespace SelkiDotNet.Controllers
             }
             if (faculty != 0)
             {
-                list = db.Users.Where(d => d.FacultyId == faculty).ToList();
-
-                
+                list = db.Users.Where(d => d.FacultyId == faculty).ToList();             
             }
             if (department !=0)
             {
@@ -43,8 +41,8 @@ namespace SelkiDotNet.Controllers
             }
             if(q!=null)
             {
-                list = db.Users.Where(d => ((d.Department.Name).Contains(q)) ||
-                    (d.Faculty.Name).Contains(q) || (d.Username).Contains(q) || (d.EmailAddress).Contains(q)).ToList();
+                list = db.Users.Where(d => ((d.Department.Name).Contains(q)) &&
+                    (d.Faculty.Name).Contains(q) && (d.Username).Contains(q) && (d.EmailAddress).Contains(q)).ToList();
             }
             
             List<DtoUserGetSuccessMsg> fulllist = new List<DtoUserGetSuccessMsg>();
