@@ -16,6 +16,7 @@ namespace SelkiDotNet.Models.SuccessMsg
         public dept department { get; set; }
         public degr degree { get; set; }
         public string email { get; set; }
+        public string role { get; set; }
 
     }
     public class fact
