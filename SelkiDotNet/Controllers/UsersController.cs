@@ -141,7 +141,7 @@ namespace SelkiDotNet.Controllers
                 if(user.password == null || user.password == "")
                 {
 
-                    mo.Password = GeneratePassword();
+                    mo.Password = generateRandomPassword();
 
                 }
                 else
@@ -250,10 +250,50 @@ namespace SelkiDotNet.Controllers
             return hash.ToString();
         }
 
-        private String GeneratePassword(int genlen = 8, bool usenumbers = true, bool uselowalphabets = true, bool usehighalphabets = true, bool usesymbols = true)
-        {
+        //private String GeneratePassword(int genlen = 8, bool usenumbers = true, bool uselowalphabets = true, bool usehighalphabets = true, bool usesymbols = true)
+        //{
 
-            var upperCase = new char[]
+        //    var upperCase = new char[]
+        //    {
+        //        'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
+        //        'V', 'W', 'X', 'Y', 'Z'
+        //    };
+
+        //    var lowerCase = new char[]
+        //    {
+        //        'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+        //        'v', 'w', 'x', 'y', 'z'
+        //    };
+
+        //    var numerals = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
+
+        //    var symbols = new char[]
+        //    {
+        //        '@', '#', '$', '%', '^', '&', '*','{', '[', '}', ']'
+        //        //'~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '[', '}', ']', '-', '_', '=', '+', ':',
+        //        //';', '|', '/', '?', ',', '<', '.', '>'
+        //    };
+
+        //    char[] total = (new char[0])
+        //                    .Concat(usehighalphabets ? upperCase : new char[0])
+        //                    .Concat(uselowalphabets ? lowerCase : new char[0])
+        //                    .Concat(usenumbers ? numerals : new char[0])
+        //                    .Concat(usesymbols ? symbols : new char[0])
+        //                    .ToArray();
+
+        //    var rnd = new Random();
+
+        //    var chars = Enumerable
+        //        .Repeat<int>(0, genlen)
+        //        .Select(i => total[rnd.Next(total.Length)])
+        //        .ToArray();
+
+        //    return new string(chars);
+        //}
+
+        private string generateRandomPassword()
+        {
+             var upperCase = new char[]
             {
                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U',
                 'V', 'W', 'X', 'Y', 'Z'
@@ -269,26 +309,43 @@ namespace SelkiDotNet.Controllers
 
             var symbols = new char[]
             {
-                '@', '#', '$', '%', '^', '&', '*','{', '[', '}', ']'
+                '@', '#', '$', '%', '^', '&', '*'
                 //'~', '`', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '{', '[', '}', ']', '-', '_', '=', '+', ':',
                 //';', '|', '/', '?', ',', '<', '.', '>'
             };
+            Random _random = new Random();
+            int num = _random.Next(0, 26); // Zero to 25
+            char letlowercase = (char)('a' + num);
+            
+            Random _random1 = new Random();
+            int num1 = _random.Next(0, 26); // Zero to 25
+            char letuppercase = (char)('A' + num1);
 
-            char[] total = (new char[0])
-                            .Concat(usehighalphabets ? upperCase : new char[0])
-                            .Concat(uselowalphabets ? lowerCase : new char[0])
-                            .Concat(usenumbers ? numerals : new char[0])
-                            .Concat(usesymbols ? symbols : new char[0])
-                            .ToArray();
+            Random _random2 = new Random();
+            int letnumber = _random2.Next(0, 9);
 
-            var rnd = new Random();
+            Random _random3 = new Random();
+            int index = _random3.Next(symbols.Length);
+            char letsymbols = symbols[index];
 
-            var chars = Enumerable
-                .Repeat<int>(0, genlen)
-                .Select(i => total[rnd.Next(total.Length)])
-                .ToArray();
+            Random _random4 = new Random();
+            int num2 = _random.Next(0, 26); // Zero to 25
+            char letuppercase1 = (char)('A' + num2);
 
-            return new string(chars);
+            Random _random5 = new Random();
+            int letnumber1 = _random2.Next(0, 9);
+
+            Random _random6 = new Random();
+            int num3 = _random.Next(0, 26); // Zero to 25
+            char letlowercase1 = (char)('a' + num3);
+            
+            Random _random7 = new Random();
+            int num4 = _random.Next(0, 26); // Zero to 25
+            char letuppercase2 = (char)('A' + num4);
+
+            string password = letuppercase + letlowercase + letnumber.ToString() + letsymbols + letuppercase1 + letnumber1.ToString() + letlowercase1 + letuppercase2;
+            string newpassword = password.Substring(password.Length - 8);
+            return newpassword;
         }
 
     }
