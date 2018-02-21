@@ -89,7 +89,7 @@ namespace SelkiDotNet.Controllers
                 fulllist.Add(message);
             }
             ulist.users = fulllist;
-            var rmsg = Request.CreateResponse(HttpStatusCode.Created, ulist);
+            var rmsg = Request.CreateResponse(HttpStatusCode.OK, ulist);
             return rmsg;
         }
 
