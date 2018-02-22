@@ -166,7 +166,7 @@ namespace SelkiDotNet.Controllers
             }
             if (user.email == null)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Emali Address is empty");
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Email Address is empty");
             }
             else
             {
@@ -209,7 +209,7 @@ namespace SelkiDotNet.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, message1);
                 }
 
-                var verifyphone = new Regex("^[0-9]{11}$");
+                var verifyphone = new Regex("^(\\+[9]{1}[4]{1}[1-9]{1}[0-9]{8})$");
                 if(!(user.mobile == null) || !(user.mobile != ""))
                 {
                     if (!verifyphone.IsMatch(user.mobile))
