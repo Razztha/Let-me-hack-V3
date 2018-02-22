@@ -1,5 +1,5 @@
 # .net_hackv1
-Alumina DotnetCore 1.o API Documentation 
+Asp.net Web API Documentation 
 [<img src="https://kingtop.visualstudio.com/_apis/public/build/definitions/6eb8c133-9a79-48e2-862f-7346f17a2306/7/badge"/>](https://kingtop.visualstudio.com/nethack2/_build/index?definitionId=7)
 
 ### Prerequisites
